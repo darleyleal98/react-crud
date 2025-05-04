@@ -8,17 +8,15 @@ const UserFormScreen = ({ route }: { route: any }) => {
 
     const [userId, setUserId] = useState(id);
 
-    console.log(nome)
-
     const [name, setName] = useState(nome);
     const [nameFieldIsValid, setNameFieldIsValid] = useState(true);
     const [nameError, setNameError] = useState('');
 
-    const [userEmail, setUserEmail] = useState(email.toString());
+    const [userEmail, setUserEmail] = useState(email);
     const [userEmailFieldIsValid, setUserEmailFieldIsValid] = useState(true);
     const [userEmailError, setUserEmailError] = useState('');
 
-    const [imageLinkURL, setImageLinkURL] = useState(imagem.toString());
+    const [imageLinkURL, setImageLinkURL] = useState(imagem);
     const [imageLinkURLFieldIsValid, setImageLinkURLFieldIsValid] = useState(true);
     const [imageLinkURLError, setImageLinkURLError] = useState('');
 
@@ -35,13 +33,13 @@ const UserFormScreen = ({ route }: { route: any }) => {
             setUserEmailError('The e-mail field is required!');
             setUserEmailFieldIsValid(false);
         }
-        if (imageLinkURL.trim().length === 0) {
-            setImageLinkURLError('The name field is required!');
-            setImageLinkURLFieldIsValid(false);
-        }
         if (age.trim().length === 0) {
-            setAgeError('The name field is required!');
+            setAgeError('The age field is required!');
             setAgeFieldIsValid(false);
+        }
+        if (imageLinkURL.trim().length === 0) {
+            setImageLinkURLError('The url field is required!');
+            setImageLinkURLFieldIsValid(false);
         }
     };
 
@@ -59,13 +57,14 @@ const UserFormScreen = ({ route }: { route: any }) => {
                         style={styles.textInput}
                         placeholderTextColor={'white'}
                         placeholder='Name'
+                        numberOfLines={1}
                         value={name}
                         onChangeText={text => setName(text)}
                     />
-                    {
-                        !nameFieldIsValid && <Text style={styles.errorMessage}>{nameError}</Text>
-                    }
                 </View>
+                {
+                    !nameFieldIsValid && <Text style={styles.errorMessage}>{nameError}</Text>
+                }
                 <View style={styles.inputContainer}>
                     <MaterialIcons
                         name='mail'
@@ -74,15 +73,16 @@ const UserFormScreen = ({ route }: { route: any }) => {
                     </MaterialIcons>
                     <TextInput
                         style={styles.textInput}
-                        value={email}
+                        value={userEmail}
+                        numberOfLines={1}
                         placeholderTextColor={'white'}
                         placeholder='E-mail'
                         onChangeText={text => setUserEmail(text)}
                     />
-                    {
-                        !userEmailFieldIsValid && <Text style={styles.errorMessage}>{userEmailError}</Text>
-                    }
                 </View>
+                {
+                    !userEmailFieldIsValid && <Text style={styles.errorMessage}>{userEmailError}</Text>
+                }
                 <View style={styles.inputContainer}>
                     <MaterialCommunityIcons
                         name='numeric'
@@ -92,14 +92,15 @@ const UserFormScreen = ({ route }: { route: any }) => {
                     <TextInput
                         style={styles.textInput}
                         value={age}
+                        numberOfLines={1}
                         placeholderTextColor={'white'}
                         placeholder='Age'
                         onChangeText={text => setAge(text)}
                     />
-                    {
-                        !ageFieldIsValid && <Text>{ageError}</Text>
-                    }
                 </View>
+                {
+                    !ageFieldIsValid && <Text style={styles.errorMessage}>{ageError}</Text>
+                }
                 <View style={styles.inputContainer}>
                     <MaterialIcons
                         name='photo'
@@ -108,19 +109,20 @@ const UserFormScreen = ({ route }: { route: any }) => {
                     </MaterialIcons>
                     <TextInput
                         style={styles.textInput}
+                        numberOfLines={1}
                         value={imageLinkURL}
                         placeholderTextColor={'white'}
                         placeholder='Image link'
                         onChangeText={text => setImageLinkURL(text)}
                     />
-                    {
-                        !imageLinkURLFieldIsValid && <Text>{imageLinkURLError}</Text>
-                    }
                 </View>
+                {
+                    !imageLinkURLFieldIsValid && <Text style={styles.errorMessage}>{imageLinkURLError}</Text>
+                }
                 <TouchableOpacity
                     style={styles.button}
                     activeOpacity={0.6}
-                    onPress={handleSubmit}
+                    onPress={() => handleSubmit()}
                 >
                     <Text style={styles.textButton}>Save</Text>
                 </TouchableOpacity>
@@ -140,7 +142,8 @@ const styles = StyleSheet.create({
         width: '100%',
         borderRadius: 10,
         alignItems: 'center',
-        marginBottom: 12,
+        marginBottom: 6,
+        marginTop: 6,
     },
     icon: {
         width: 22,
@@ -152,7 +155,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: 'white',
         fontWeight: '500',
-        width: '100%',
         paddingVertical: 16,
         paddingHorizontal: 16,
     },
@@ -160,7 +162,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#616161',
         paddingVertical: 14,
         borderRadius: 22,
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 8
     },
     textButton: {
         textAlign: 'center',
@@ -169,8 +172,9 @@ const styles = StyleSheet.create({
         fontWeight: '700'
     },
     errorMessage: {
-        fontSize: 22,
+        fontSize: 14,
         color: 'red',
+        marginLeft: 4
     }
 });
 
