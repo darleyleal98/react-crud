@@ -3,7 +3,6 @@ import UserListScreen from "./screens/user-list";
 import UserFormScreen from "./screens/user-form";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 const StackNavigator = () => {
 
@@ -25,13 +24,21 @@ const StackNavigator = () => {
           },
           headerTitleAlign: 'center',
           headerStyle: {
-            backgroundColor: 'gray'
+            backgroundColor: '#616161'
           },
           headerRight: () => (
             <TouchableOpacity
               onPress={() => {
                 //@ts-ignore
-                navigation.navigate('UserForm')
+                navigation.navigate('UserForm',
+                  {
+                    id: "",
+                    nome: "",
+                    email: "",
+                    imagem: "",
+                    idade: ""
+                  }
+                )
               }}
             >
               <Ionicons
@@ -48,7 +55,7 @@ const StackNavigator = () => {
       <Stack.Screen
         name="UserForm"
         options={{
-          title: "User Form",
+          title: "Create new User",
           headerTitleAlign: 'center',
           headerTitleStyle: {
             color: 'white',
@@ -56,7 +63,7 @@ const StackNavigator = () => {
             fontSize: 22
           },
           headerStyle: {
-            backgroundColor: 'gray',
+            backgroundColor: '#616161',
           },
           headerTintColor: 'white'
         }}

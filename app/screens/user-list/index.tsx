@@ -1,13 +1,33 @@
-import { View, Text, StatusBar, StyleSheet, FlatList, ListRenderItemInfo, TouchableOpacity } from 'react-native';
+import { View, Text, StatusBar, StyleSheet, FlatList, ListRenderItemInfo, TouchableOpacity, Alert, ToastAndroid } from 'react-native';
 import { pessoas, Pessoa } from '@/app/data/users-mock';
 import { Avatar, Button, ListItem } from 'react-native-elements';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const UserListScreen = () => {
 
     console.error = () => { };
 
+    const navigation = useNavigation();
+
+    const confirmDeleteUser = (pessoa: Pessoa) => {
+        Alert.alert('Excluir Usuário', 'Deseja excluir o usuário?', [
+            {
+                text: 'Sim',
+                onPress: showDeleteUser
+            },
+            {
+                text: 'Não'
+            }
+        ]);
+    };
+
+    const showDeleteUser = () => {
+        ToastAndroid.show('Usuário excluído com sucesso!', ToastAndroid.SHORT);
+    };
+
     const getUser = ({ pessoa }: { pessoa: Pessoa }) => {
+
         return (
             <ListItem
                 key={pessoa.id}
@@ -22,10 +42,11 @@ const UserListScreen = () => {
                                 <ListItem.Title style={styles.title}>{pessoa.nome}</ListItem.Title>
                                 <ListItem.Subtitle style={styles.subtitle}>{pessoa.email}</ListItem.Subtitle>
                             </View>
-                            <View style={[styles.buttonIconsContainer, {flex: 1}]}>
+                            <View style={[styles.buttonIconsContainer, { flex: 1 }]}>
                                 <TouchableOpacity
                                     onPress={() => {
-
+                                        //@ts-ignore
+                                        navigation.navigate('UserForm',  pessoa)
                                     }}
                                 >
                                     <MaterialIcons
@@ -36,7 +57,7 @@ const UserListScreen = () => {
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     onPress={() => {
-
+                                        confirmDeleteUser(pessoa)
                                     }}
                                 >
                                     <FontAwesome5
@@ -55,7 +76,7 @@ const UserListScreen = () => {
 
     return (
         <View>
-            <StatusBar barStyle={'light-content'} backgroundColor={'gray'}></StatusBar>
+            <StatusBar barStyle={'light-content'} backgroundColor={'#616161'}></StatusBar>
             <FlatList
                 data={pessoas}
                 keyExtractor={item => item.id.toString()}
