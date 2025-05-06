@@ -1,4 +1,4 @@
-import { Pessoa } from '@/app/data/users-mock';
+import { User } from '@/app/data/users-mock';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { View, TextInput, StyleSheet, StatusBar, TouchableOpacity, Text } from 'react-native';

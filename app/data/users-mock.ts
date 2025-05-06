@@ -1,4 +1,4 @@
-export interface Pessoa {
+export type User = {
     id: string,
     nome: string,
     imagem: string,
@@ -6,7 +6,7 @@ export interface Pessoa {
     idade: number
 };
 
-export const pessoas: Pessoa[] = [
+export const users: User[] = [
     { id: "1", nome: "Alice Silva", imagem: "https://cdn.pixabay.com/photo/2017/08/06/15/13/woman-2593366_1280.jpg", email: "alice.silva@email.com", idade: 28 },
     { id: "2", nome: "Bob Oliveira", imagem: "https://cdn.pixabay.com/photo/2019/04/16/23/59/sad-4133121_1280.jpg", email: "bob.oliveira@email.com", idade: 35 },
     { id: "3", nome: "Carla Pereira", imagem: "https://cdn.pixabay.com/photo/2017/08/06/15/13/woman-2593366_1280.jpg", email: "carla.pereira@email.com", idade: 22 },

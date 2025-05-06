@@ -1,16 +1,26 @@
-import { View, Text, StatusBar, StyleSheet, FlatList, ListRenderItemInfo, TouchableOpacity, Alert, ToastAndroid } from 'react-native';
-import { pessoas, Pessoa } from '@/app/data/users-mock';
+import { View, Text, StatusBar, StyleSheet, FlatList, TouchableOpacity, Alert, ToastAndroid } from 'react-native';
 import { Avatar, Button, ListItem } from 'react-native-elements';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { User } from '@/app/data/users-mock';
+import { UsersContext } from '@/app/context/UserContext';
+import { useContext } from 'react';
 
 const UserListScreen = () => {
 
     console.error = () => { };
-
     const navigation = useNavigation();
 
-    const confirmDeleteUser = (pessoa: Pessoa) => {
+    const contextValue = useContext(UsersContext);
+
+    if (!contextValue) {
+        return <Text>O UserProvider não foi encontrado.</Text>
+    }
+
+    const { state } = contextValue;
+    const { users } = state
+
+    const confirmDeleteUser = (pessoa: User) => {
         Alert.alert('Excluir Usuário', 'Deseja excluir o usuário?', [
             {
                 text: 'Sim',
@@ -26,27 +36,27 @@ const UserListScreen = () => {
         ToastAndroid.show('Usuário excluído com sucesso!', ToastAndroid.SHORT);
     };
 
-    const getUser = ({ pessoa }: { pessoa: Pessoa }) => {
+    const getUser = ({ user: user }: { user: User }) => {
 
         return (
             <ListItem
-                key={pessoa.id}
+                key={user.id}
             >
                 <ListItem.Content>
                     <View style={styles.itemContainer}>
                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
                             <View style={{ padding: 8 }}>
-                                <Avatar size={58} rounded source={{ uri: pessoa.imagem }}></Avatar>
+                                <Avatar size={58} rounded source={{ uri: user.imagem }}></Avatar>
                             </View>
                             <View style={{ paddingTop: 8, paddingLeft: 8 }}>
-                                <ListItem.Title style={styles.title}>{pessoa.nome}</ListItem.Title>
-                                <ListItem.Subtitle style={styles.subtitle}>{pessoa.email}</ListItem.Subtitle>
+                                <ListItem.Title style={styles.title}>{user.nome}</ListItem.Title>
+                                <ListItem.Subtitle style={styles.subtitle}>{user.email}</ListItem.Subtitle>
                             </View>
                             <View style={[styles.buttonIconsContainer, { flex: 1 }]}>
                                 <TouchableOpacity
                                     onPress={() => {
                                         //@ts-ignore
-                                        navigation.navigate('UserForm',  pessoa)
+                                        navigation.navigate('UserForm', user)
                                     }}
                                 >
                                     <MaterialIcons
@@ -57,7 +67,7 @@ const UserListScreen = () => {
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     onPress={() => {
-                                        confirmDeleteUser(pessoa)
+                                        confirmDeleteUser(user)
                                     }}
                                 >
                                     <FontAwesome5
@@ -78,10 +88,10 @@ const UserListScreen = () => {
         <View>
             <StatusBar barStyle={'light-content'} backgroundColor={'#616161'}></StatusBar>
             <FlatList
-                data={pessoas}
+                data={users}
                 keyExtractor={item => item.id.toString()}
                 renderItem={({ item }) =>
-                    getUser({ pessoa: item })
+                    getUser({ user: item })
                 }
             >
             </FlatList>
